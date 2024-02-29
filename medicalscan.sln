@@ -2,6 +2,12 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "medicalscan", "medicalscan\medicalscan.csproj", "{6E481799-C712-4EE6-AEFE-483726571400}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "medicalscan.Core", "medicalscan.Core\medicalscan.Core.csproj", "{83FDC211-C9AF-410A-B6E7-793CC05640B9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Layers", "Layers", "{B3ED3A59-EE24-4193-B2A6-B9250FA194D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "medicalscan.DataAccess", "medicalscan.DataAccess\medicalscan.DataAccess.csproj", "{E7FAED68-5052-494E-B08A-5D3900499E6A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +18,17 @@ Global
 		{6E481799-C712-4EE6-AEFE-483726571400}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E481799-C712-4EE6-AEFE-483726571400}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E481799-C712-4EE6-AEFE-483726571400}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83FDC211-C9AF-410A-B6E7-793CC05640B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83FDC211-C9AF-410A-B6E7-793CC05640B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83FDC211-C9AF-410A-B6E7-793CC05640B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83FDC211-C9AF-410A-B6E7-793CC05640B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7FAED68-5052-494E-B08A-5D3900499E6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7FAED68-5052-494E-B08A-5D3900499E6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7FAED68-5052-494E-B08A-5D3900499E6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7FAED68-5052-494E-B08A-5D3900499E6A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{83FDC211-C9AF-410A-B6E7-793CC05640B9} = {B3ED3A59-EE24-4193-B2A6-B9250FA194D3}
+		{E7FAED68-5052-494E-B08A-5D3900499E6A} = {B3ED3A59-EE24-4193-B2A6-B9250FA194D3}
 	EndGlobalSection
 EndGlobal
