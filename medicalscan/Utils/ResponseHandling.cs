@@ -9,7 +9,7 @@ public static class ResponseHandling
         return new HandledResponse<T>
         {
             Data = data,
-            Code = 200,
+            Code = code,
             Error = error
         };
     }
