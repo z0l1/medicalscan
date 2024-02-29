@@ -64,10 +64,10 @@ public class AsyncMemoryProductStore
             return new TaskResult<Product?>(null, "could not create product");
         }
 
-        return new TaskResult<Product?>( entity);
+        return new TaskResult<Product?>(entity);
     }
 
-    public async Task<TaskResult< Product?>> GetProductById(long id)
+    public async Task<TaskResult<Product?>> GetProductById(long id)
     {
         var result = _productDict.TryGetValue(id, out var product);
         if (!result)
@@ -89,13 +89,14 @@ public class AsyncMemoryProductStore
         var productResult = await GetProductById(entity.Id);
         if (productResult.Error != null)
         {
-            return new TaskResult<Product?>(null,productResult.Error, "error updating product");
+            return new TaskResult<Product?>(null, productResult.Error, "error updating product");
         }
 
         // should never happen, except if "someone" forgot to return data in getproductbyid
         if (productResult.Data?.Id != entity.Id)
         {
-            return new TaskResult<Product?>(null, $"entity id ({entity.Id}) does not match with key ({productResult.Data?.Id})");
+            return new TaskResult<Product?>(null,
+                $"entity id ({entity.Id}) does not match with key ({productResult.Data?.Id})");
         }
 
         var result = _productDict.TryUpdate(entity.Id, entity, productResult.Data);
@@ -114,7 +115,7 @@ public class AsyncMemoryProductStore
         {
             return new TaskResult<bool>(false, productResult.Error, "error deleting product");
         }
-        
+
         var result = _productDict.TryRemove(id, out var removedProduct);
         var err = result ? null : "could not deleting product";
 
