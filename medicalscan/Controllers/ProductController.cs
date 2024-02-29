@@ -1,6 +1,7 @@
 ﻿using medicalscan.Core;
 using medicalscan.Core.Entities;
 using medicalscan.Repository.Repositories.Interfaces;
+using medicalscan.Repository.Store;
 using medicalscan.Utils;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,40 +17,73 @@ public class ProductController : ControllerBase
         _productRepository = productRepository;
     }
 
-    [HttpGet]
+    [HttpGet("/getAllProducts")]
     public async Task<HandledResponse<IEnumerable<Product>>> GetAllProducts()
     {
         var result = await _productRepository.GetAllProductsAsync();
         if (result.Error != null)
         {
-            return ResponseHandling.MakeStatusCodeResponse<>(400, null, result.Error);
+            return ResponseHandling.MakeStatusCodeResponse<IEnumerable<Product>>(500, null, result.Error);
+        }
+
+        return ResponseHandling.MakeOkResponse(result.Data);
+    }
+
+    [HttpGet("/getProductById/{id:long}")]
+    public async Task<HandledResponse<Product?>> GetProductById(long id)
+        // public async Task<HandledResponse<Product?>> GetProductById([FromQuery] long id)
+    {
+        var result = await _productRepository.GetProductByIdAsync(id);
+        if (result.Error != null)
+        {
+            // if (result.Error == ProductErrors.CouldNotFind)
+            return ResponseHandling.MakeStatusCodeResponse<Product?>(404, null, result.Error);
+        }
+
+        return ResponseHandling.MakeOkResponse(result.Data);
+    }
+
+    [HttpPost("/createProduct")]
+    public async Task<HandledResponse<Product?>> CreateProduct([FromBody] Product productRequest)
+    {
+        var result = await _productRepository.CreateProductAsync(productRequest.Name, productRequest.Price);
+        if (result.Error != null)
+        {
+            return ResponseHandling.MakeStatusCodeResponse<Product?>(500, null, result.Error);
+        }
+
+        return ResponseHandling.MakeOkResponse(result.Data);
+    }
+
+    [HttpPut("/updateProduct")]
+    public async Task<HandledResponse<Product>> UpdateProduct([FromBody] Product productRequest)
+    {
+        var result = await _productRepository.UpdateProductAsync(productRequest);
+        if (result.Error != null)
+        {
+            int code = 400;
+            if (result.Error == ProductErrors.CouldNotFind) code = 404;
+            if (result.Error == ProductErrors.CouldNotUpdate) code = 500;
+            
+            return ResponseHandling.MakeStatusCodeResponse<Product>(code, null, result.Error);
         }
         
         return ResponseHandling.MakeOkResponse(result.Data);
     }
 
-    [HttpGet]
-    public async Task<HandledResponse<Product?>> GetProductById(long id)
+    [HttpDelete("/deleteById/{id:long}")]
+    public async Task<HandledResponse<bool>> DeleteProductById(long id)
     {
-        // return ResponseHandling.MakeOkResponse(new Product { Id = 0, Name = "asd", Price = 1500 });
-        throw new NotImplementedException();
-    }
-
-    [HttpPost]
-    public async Task<HandledResponse<Product>> CreateProduct([FromBody] Product productRequest)
-    {
-        throw new NotImplementedException();
-    }
-
-    [HttpPut]
-    public async Task<HandledResponse<Product>> UpdateProduct([FromBody] Product productRequest)
-    {
-        throw new NotImplementedException();
-    }
-
-    [HttpDelete]
-    public async Task<HandledResponse<object>> DeleteProductById(long id)
-    {
-        throw new NotImplementedException();
+        var result = await _productRepository.DeleteProductByIdAsync(id);
+        if (result.Error != null)
+        {
+            int code = 400;
+            if (result.Error == ProductErrors.CouldNotFind) code = 404;
+            if (result.Error == ProductErrors.CouldNotDelete) code = 500;
+            
+            return ResponseHandling.MakeStatusCodeResponse<bool>(code, false, result.Error);
+        }
+        
+        return ResponseHandling.MakeOkResponse(result.Data);
     }
 }
