@@ -1,3 +1,6 @@
+using medicalscan.Repository.Repositories;
+using medicalscan.Repository.Repositories.Interfaces;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -9,6 +12,8 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGenNewtonsoftSupport();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 var app = builder.Build();
 
