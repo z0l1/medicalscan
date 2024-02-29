@@ -3,16 +3,16 @@ using medicalscan.Core.Entities;
 
 namespace medicalscan.Repository.Store;
 
-public class MemoryProductStore
+public class AsyncMemoryProductStore
 {
-    private static MemoryProductStore _instance;
+    private static AsyncMemoryProductStore _instance;
     private static readonly object _lock = new object();
 
     private readonly object _idLock = new object();
     private long _nextId = 1;
     private ConcurrentDictionary<long, Product> _productDict = new ConcurrentDictionary<long, Product>();
 
-    private MemoryProductStore()
+    private AsyncMemoryProductStore()
     {
     }
 
@@ -28,7 +28,7 @@ public class MemoryProductStore
         return id;
     }
 
-    public static MemoryProductStore Instance
+    public static AsyncMemoryProductStore Instance
     {
         get
         {
@@ -38,7 +38,7 @@ public class MemoryProductStore
                 {
                     if (_instance == null)
                     {
-                        _instance = new MemoryProductStore();
+                        _instance = new AsyncMemoryProductStore();
                     }
                 }
             }
