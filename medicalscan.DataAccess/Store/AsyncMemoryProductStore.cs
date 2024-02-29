@@ -61,7 +61,7 @@ public class AsyncMemoryProductStore
         var result = _productDict.TryAdd(id, entity);
         if (!result)
         {
-            return new TaskResult<Product?>(null, "could not create product");
+            return new TaskResult<Product?>(null, ProductErrors.CouldNotCreate);
         }
 
         return new TaskResult<Product?>(entity);
@@ -72,7 +72,7 @@ public class AsyncMemoryProductStore
         var result = _productDict.TryGetValue(id, out var product);
         if (!result)
         {
-            return new TaskResult<Product?>(null, $"product with id ({id}) does not exist");
+            return new TaskResult<Product?>(null, ProductErrors.CouldNotFind);
         }
 
         return new TaskResult<Product?>(product);
@@ -89,7 +89,7 @@ public class AsyncMemoryProductStore
         var productResult = await GetProductById(entity.Id);
         if (productResult.Error != null)
         {
-            return new TaskResult<Product?>(null, productResult.Error, "error updating product");
+            return new TaskResult<Product?>(null, productResult.Error);
         }
 
         // should never happen, except if "someone" forgot to return data in getproductbyid
@@ -102,7 +102,7 @@ public class AsyncMemoryProductStore
         var result = _productDict.TryUpdate(entity.Id, entity, productResult.Data);
         if (!result)
         {
-            return new TaskResult<Product?>(null, $"could not update product ({entity.Id})");
+            return new TaskResult<Product?>(null, ProductErrors.CouldNotUpdate);
         }
 
         return new TaskResult<Product?>(entity);
@@ -113,11 +113,11 @@ public class AsyncMemoryProductStore
         var productResult = await GetProductById(id);
         if (productResult.Error != null)
         {
-            return new TaskResult<bool>(false, productResult.Error, "error deleting product");
+            return new TaskResult<bool>(false, productResult.Error);
         }
 
         var result = _productDict.TryRemove(id, out var removedProduct);
-        var err = result ? null : "could not deleting product";
+        var err = result ? null : ProductErrors.CouldNotDelete;
 
         return new TaskResult<bool>(result, err);
     }
