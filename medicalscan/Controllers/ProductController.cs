@@ -1,5 +1,6 @@
 ﻿using medicalscan.Core;
 using medicalscan.Core.Entities;
+using medicalscan.Repository.Repositories.Interfaces;
 using medicalscan.Utils;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,11 +9,23 @@ namespace medicalscan.Controllers;
 [Route("[controller]")]
 public class ProductController : ControllerBase
 {
+    private readonly IProductRepository _productRepository;
+
+    public ProductController(IProductRepository productRepository)
+    {
+        _productRepository = productRepository;
+    }
+
     [HttpGet]
     public async Task<HandledResponse<IEnumerable<Product>>> GetAllProducts()
     {
-        var items = new List<Product>() { new() { Id = 0, Name = "asd", Price = 1500 } }.AsEnumerable();
-        return ResponseHandling.MakeOkResponse(items);
+        var result = await _productRepository.GetAllProductsAsync();
+        if (result.Error != null)
+        {
+            return ResponseHandling.MakeStatusCodeResponse<>(400, null, result.Error);
+        }
+        
+        return ResponseHandling.MakeOkResponse(result.Data);
     }
 
     [HttpGet]
