@@ -16,7 +16,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<HandledResponse<Product?>> GetProductById(int id)
+    public async Task<HandledResponse<Product?>> GetProductById(long id)
     {
         // return ResponseHandling.MakeOkResponse(new Product { Id = 0, Name = "asd", Price = 1500 });
         throw new NotImplementedException();
@@ -28,7 +28,14 @@ public class ProductController : ControllerBase
         throw new NotImplementedException();
     }
 
+    [HttpPut]
     public async Task<HandledResponse<Product>> UpdateProduct([FromBody] Product productRequest)
+    {
+        throw new NotImplementedException();
+    }
+
+    [HttpDelete]
+    public async Task<HandledResponse<object>> DeleteProductById(long id)
     {
         throw new NotImplementedException();
     }
