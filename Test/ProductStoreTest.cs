@@ -28,9 +28,9 @@ public class Tests
 
         var secondExpectedProduct = new Product
         {
-            Id = 1,
-            Name = "first",
-            Price = 100
+            Id = 2,
+            Name = "second",
+            Price = 200
         };
 
         var result1 = await GetStore().CreateProduct(firstExpectedProduct.Name, firstExpectedProduct.Price);
