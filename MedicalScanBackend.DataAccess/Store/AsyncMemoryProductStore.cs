@@ -10,7 +10,7 @@ public class AsyncMemoryProductStore
 
     private readonly object _idLock = new object();
     private long _nextId = 1;
-    private ConcurrentDictionary<long, Product> _productDict = new ConcurrentDictionary<long, Product>();
+    private ConcurrentDictionary<Guid, Product> _productDict = new ConcurrentDictionary<Guid, Product>();
 
     private AsyncMemoryProductStore()
     {
@@ -50,15 +50,17 @@ public class AsyncMemoryProductStore
     public async Task<TaskResult<Product?>> CreateProduct(string name, decimal price)
     {
         var id = GetNextId();
+        var uuid = Guid.NewGuid();
 
         var entity = new Product
         {
+            Uuid = uuid,
             Id = id,
             Name = name,
             Price = price
         };
 
-        var result = _productDict.TryAdd(id, entity);
+        var result = _productDict.TryAdd(uuid, entity);
         if (!result)
         {
             return new TaskResult<Product?>(null, ProductErrors.CouldNotCreate);
@@ -67,7 +69,7 @@ public class AsyncMemoryProductStore
         return new TaskResult<Product?>(entity);
     }
 
-    public async Task<TaskResult<Product?>> GetProductById(long id)
+    public async Task<TaskResult<Product?>> GetProductById(Guid id)
     {
         var result = _productDict.TryGetValue(id, out var product);
         if (!result)
@@ -84,31 +86,39 @@ public class AsyncMemoryProductStore
         return new TaskResult<IEnumerable<Product>>(products);
     }
 
-    public async Task<TaskResult<Product?>> UpdateProduct(Product entity)
+    public async Task<TaskResult<Product?>> UpdateProduct(Guid id, string name, decimal price)
     {
-        var productResult = await GetProductById(entity.Id);
+        var productResult = await GetProductById(id);
         if (productResult.Error != null)
         {
             return new TaskResult<Product?>(null, productResult.Error);
         }
 
         // should never happen, except if "someone" forgot to return data in getproductbyid
-        if (productResult.Data?.Id != entity.Id)
+        if (productResult.Data?.Uuid != id)
         {
             return new TaskResult<Product?>(null,
-                $"entity id ({entity.Id}) does not match with key ({productResult.Data?.Id})");
+                $"entity id ({id}) does not match with key ({productResult.Data?.Uuid})");
         }
 
-        var result = _productDict.TryUpdate(entity.Id, entity, productResult.Data);
+        var newProduct = new Product
+        {
+            Uuid = id,
+            Id = productResult.Data.Id,
+            Name = productResult.Data.Name,
+            Price = productResult.Data.Price
+        };
+
+        var result = _productDict.TryUpdate(id, newProduct, productResult.Data);
         if (!result)
         {
             return new TaskResult<Product?>(null, ProductErrors.CouldNotUpdate);
         }
 
-        return new TaskResult<Product?>(entity);
+        return new TaskResult<Product?>(newProduct);
     }
 
-    public async Task<TaskResult<bool>> DeleteProductById(long id)
+    public async Task<TaskResult<bool>> DeleteProductById(Guid id)
     {
         var productResult = await GetProductById(id);
         if (productResult.Error != null)

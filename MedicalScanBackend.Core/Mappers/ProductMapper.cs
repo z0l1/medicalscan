@@ -5,11 +5,11 @@ namespace MedicalScanBackend.Core.Mappers;
 
 public static class ProductMapper
 {
-    public static ProductDto EntityToDto(Product entity, Guid key)
+    public static ProductDto EntityToDto(Product entity)
     {
         return new ProductDto
         {
-            Id = key,
+            Id = entity.Uuid,
             Name = entity.Name,
             Price = entity.Price
         };
