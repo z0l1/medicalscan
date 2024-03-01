@@ -1,6 +1,6 @@
-﻿using MedicalScan.Core.Entities;
+﻿using MedicalScanBackend.Core.Entities;
 
-namespace MedicalScan.Repository.Repositories.Interfaces;
+namespace MedicalScanBackend.Repository.Repositories.Interfaces;
 
 public interface IProductRepository
 {

@@ -1,5 +1,5 @@
-﻿using MedicalScan.Core;
-using MedicalScan.Core.Entities;
+﻿using MedicalScanBackend.Core.DTOs;
+using MedicalScanBackend.Core.Entities;
 
 namespace MedicalScanBackend.DomainLogic.Services.Interfaces;
 

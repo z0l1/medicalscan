@@ -1,8 +1,8 @@
-﻿using MedicalScan.Core;
-using MedicalScan.Core.Entities;
-using MedicalScan.Repository.Repositories.Interfaces;
-using MedicalScan.Repository.Store;
-using MedicalScan.Utils;
+﻿using MedicalScan.Utils;
+using MedicalScanBackend.Core.DTOs;
+using MedicalScanBackend.Core.Entities;
+using MedicalScanBackend.Repository.Repositories.Interfaces;
+using MedicalScanBackend.Repository.Store;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MedicalScan.Controllers;

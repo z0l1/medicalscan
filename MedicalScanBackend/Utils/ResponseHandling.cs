@@ -1,12 +1,12 @@
-﻿using MedicalScan.Core;
+﻿using MedicalScanBackend.Core.DTOs;
 
 namespace MedicalScan.Utils;
 
 public static class ResponseHandling
 {
-    public static HandledResponse<T> MakeStatusCodeResponse<T>(int code, T? data, string? error)
+    public static HandledResponse<T?> MakeStatusCodeResponse<T>(int code, T? data, string? error)
     {
-        return new HandledResponse<T>
+        return new HandledResponse<T?>
         {
             Data = data,
             Code = code,
@@ -15,7 +15,7 @@ public static class ResponseHandling
     }
     
     
-    public static HandledResponse<T> MakeOkResponse<T>(T data)
+    public static HandledResponse<T?> MakeOkResponse<T>(T data)
     {
         return MakeStatusCodeResponse(200, data, null);
     }

@@ -4,7 +4,7 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>medicalscan.Repository</RootNamespace>
+        <RootNamespace>MedicalScanBackend.Repository</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

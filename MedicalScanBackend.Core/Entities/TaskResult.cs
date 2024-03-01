@@ -1,4 +1,4 @@
-﻿namespace MedicalScan.Core.Entities;
+﻿namespace MedicalScanBackend.Core.Entities;
 
 public class TaskResult<T>
 {

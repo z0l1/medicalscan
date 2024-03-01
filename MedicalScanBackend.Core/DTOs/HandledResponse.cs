@@ -1,4 +1,4 @@
-﻿namespace MedicalScan.Core;
+﻿namespace MedicalScanBackend.Core.DTOs;
 
 public class HandledResponse<T>
 {

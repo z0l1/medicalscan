@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
-using MedicalScan.Core.Entities;
+using MedicalScanBackend.Core.Entities;
 
-namespace MedicalScan.Repository.Store;
+namespace MedicalScanBackend.Repository.Store;
 
 public class AsyncMemoryProductStore
 {

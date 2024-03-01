@@ -1,5 +1,5 @@
-using MedicalScan.Repository.Repositories;
-using MedicalScan.Repository.Repositories.Interfaces;
+using MedicalScanBackend.Repository.Repositories;
+using MedicalScanBackend.Repository.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
