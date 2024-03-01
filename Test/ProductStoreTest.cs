@@ -33,10 +33,11 @@ public class Tests
         Assert.That(getAllResult.Data?.Count(), Is.EqualTo(1));
 
         // get by created id
-        var getByIdResult = await GetStore().GetProductById(createResult.Data.Id);
+        var getByIdResult = await GetStore().GetProductById(createResult.Data.Uuid);
         Assert.That(getByIdResult.Error, Is.Null);
         Assert.That(getByIdResult.Data, Is.Not.Null);
 
+        Assert.That(getByIdResult.Data?.Uuid, Is.EqualTo(createResult.Data?.Uuid));
         Assert.That(getByIdResult.Data?.Id, Is.EqualTo(createResult.Data?.Id));
         Assert.That(getByIdResult.Data?.Name, Is.EqualTo("first"));
         Assert.That(getByIdResult.Data?.Price, Is.EqualTo(100));
@@ -51,18 +52,18 @@ public class Tests
         var updated = createResult.Data;
         updated.Name = "firstUpdated";
         updated.Price = 12345;
-        var updateResult = await GetStore().UpdateProduct(updated);
+        var updateResult = await GetStore().UpdateProduct(updated.Uuid, updated.Name, updated.Price);
         Assert.That(updateResult.Error, Is.Null);
         Assert.That(updateResult.Data, Is.Not.Null);
         Assert.That(updateResult.Data?.Name, Is.EqualTo(updated.Name));
         Assert.That(updateResult.Data?.Price, Is.EqualTo(updated.Price));
 
         // check delete all
-        var deleteResult = await GetStore().DeleteProductById(createResult.Data.Id);
+        var deleteResult = await GetStore().DeleteProductById(createResult.Data.Uuid);
         Assert.That(deleteResult.Error, Is.Null);
         Assert.That(deleteResult.Data, Is.True);
 
-        deleteResult = await GetStore().DeleteProductById(createResult1.Data.Id);
+        deleteResult = await GetStore().DeleteProductById(createResult1.Data.Uuid);
         Assert.That(deleteResult.Error, Is.Null);
         Assert.That(deleteResult.Data, Is.True);
 
@@ -77,18 +78,18 @@ public class Tests
     [Test]
     public async Task TestOutliers()
     {
-        var getResult = await GetStore().GetProductById(0);
+        var getResult = await GetStore().GetProductById(Guid.Empty);
         Assert.That(getResult.Error, Is.Not.Null);
         Assert.That(getResult.Error, Is.EqualTo(ProductErrors.CouldNotFind));
         Assert.That(getResult.Data, Is.Null);
 
         var updateResult = await GetStore()
-            .UpdateProduct(new Product { Id = 0, Price = 1, Name = "asd" });
+            .UpdateProduct(Guid.Empty,"asd", 1);
         Assert.That(updateResult.Error, Is.Not.Null);
         Assert.That(updateResult.Error, Is.EqualTo(ProductErrors.CouldNotFind));
         Assert.That(updateResult.Data, Is.Null);
         
-        var deleteResult = await GetStore().DeleteProductById(0);
+        var deleteResult = await GetStore().DeleteProductById(Guid.Empty);
         Assert.That(deleteResult.Error, Is.Not.Null);
         Assert.That(deleteResult.Error, Is.EqualTo(ProductErrors.CouldNotFind));
         Assert.That(deleteResult.Data, Is.False);
