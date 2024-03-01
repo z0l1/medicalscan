@@ -1,6 +1,6 @@
-﻿using medicalscan.Core;
+﻿using MedicalScan.Core;
 
-namespace medicalscan.Utils;
+namespace MedicalScan.Utils;
 
 public static class ResponseHandling
 {

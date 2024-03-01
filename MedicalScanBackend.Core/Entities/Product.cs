@@ -1,4 +1,4 @@
-﻿namespace medicalscan.Core.Entities;
+﻿namespace MedicalScan.Core.Entities;
 
 public class Product
 {

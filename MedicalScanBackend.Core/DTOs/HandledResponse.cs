@@ -1,4 +1,4 @@
-﻿namespace medicalscan.Core;
+﻿namespace MedicalScan.Core;
 
 public class HandledResponse<T>
 {

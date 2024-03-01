@@ -1,4 +1,4 @@
-﻿namespace medicalscan.Repository.Store;
+﻿namespace MedicalScan.Repository.Store;
 
 public static class ProductErrors
 {

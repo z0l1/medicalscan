@@ -1,11 +1,11 @@
-﻿using medicalscan.Core;
-using medicalscan.Core.Entities;
-using medicalscan.Repository.Repositories.Interfaces;
-using medicalscan.Repository.Store;
-using medicalscan.Utils;
+﻿using MedicalScan.Core;
+using MedicalScan.Core.Entities;
+using MedicalScan.Repository.Repositories.Interfaces;
+using MedicalScan.Repository.Store;
+using MedicalScan.Utils;
 using Microsoft.AspNetCore.Mvc;
 
-namespace medicalscan.Controllers;
+namespace MedicalScan.Controllers;
 
 [Route("[controller]")]
 public class ProductController : ControllerBase

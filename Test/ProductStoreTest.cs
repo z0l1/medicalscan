@@ -1,5 +1,5 @@
-using medicalscan.Core.Entities;
-using medicalscan.Repository.Store;
+using MedicalScan.Core.Entities;
+using MedicalScan.Repository.Store;
 
 namespace Test;
 

@@ -1,8 +1,8 @@
-﻿using medicalscan.Core.Entities;
-using medicalscan.Repository.Repositories.Interfaces;
-using medicalscan.Repository.Store;
+﻿using MedicalScan.Core.Entities;
+using MedicalScan.Repository.Repositories.Interfaces;
+using MedicalScan.Repository.Store;
 
-namespace medicalscan.Repository.Repositories;
+namespace MedicalScan.Repository.Repositories;
 
 public class ProductRepository: IProductRepository
 {
