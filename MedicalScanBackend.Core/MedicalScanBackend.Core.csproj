@@ -4,7 +4,7 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>medicalscan.Repository</RootNamespace>
+        <RootNamespace>medicalscan.Core</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\medicalscan.Core\medicalscan.Core.csproj" />
+      <Folder Include="WireUp\" />
     </ItemGroup>
 
 </Project>

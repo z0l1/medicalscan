@@ -18,7 +18,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\medicalscan.DataAccess\medicalscan.DataAccess.csproj" />
+      <ProjectReference Include="..\MedicalScanBackend.DataAccess\MedicalScanBackend.DataAccess.csproj" />
     </ItemGroup>
 
 </Project>
