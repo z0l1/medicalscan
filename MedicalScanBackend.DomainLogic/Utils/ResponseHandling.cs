@@ -1,6 +1,6 @@
 ﻿using MedicalScanBackend.Core.DTOs;
 
-namespace MedicalScan.Utils;
+namespace MedicalScanBackend.DomainLogic.Utils;
 
 public static class ResponseHandling
 {
