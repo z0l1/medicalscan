@@ -1,3 +1,5 @@
+using MedicalScanBackend.DomainLogic.Services;
+using MedicalScanBackend.DomainLogic.Services.Interfaces;
 using MedicalScanBackend.Repository.Repositories;
 using MedicalScanBackend.Repository.Repositories.Interfaces;
 
@@ -10,6 +12,7 @@ builder.Services.AddSwaggerGenNewtonsoftSupport();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 var app = builder.Build();
 
