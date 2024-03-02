@@ -13,7 +13,11 @@ public static class ResponseHandling
             Error = error
         };
     }
-    
+
+    public static HandledResponse<T?> MakeBadRequestResponse<T>(string error)
+    {
+        return MakeStatusCodeResponse<T?>(400, default, error);
+    }
     
     public static HandledResponse<T?> MakeOkResponse<T>(T data)
     {

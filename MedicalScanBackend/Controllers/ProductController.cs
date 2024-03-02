@@ -1,5 +1,6 @@
 ﻿using MedicalScanBackend.Core.DTOs;
 using MedicalScanBackend.DomainLogic.Services.Interfaces;
+using MedicalScanBackend.DomainLogic.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MedicalScanBackend.Controllers;
@@ -30,12 +31,23 @@ public class ProductController : ControllerBase
     [HttpPost("/createProduct")]
     public async Task<HandledResponse<ProductDto?>> CreateProduct([FromBody] CreateProductRequest createRequest)
     {
+        if (!ModelState.IsValid)
+        {
+            var errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage)).ToList();
+            return ResponseHandling.MakeBadRequestResponse<ProductDto?>(string.Join(" ", errors));
+        }
+        
         return await _productService.CreateProductAsync(createRequest);
     }
 
     [HttpPut("/updateProduct")]
     public async Task<HandledResponse<ProductDto?>> UpdateProduct([FromBody] ProductDto productDto)
     {
+        if (!ModelState.IsValid)
+        {
+            var errors = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage)).ToList();
+            return ResponseHandling.MakeBadRequestResponse<ProductDto?>(string.Join(" ", errors));
+        }
         return await _productService.UpdateProductAsync(productDto);
     }
 
