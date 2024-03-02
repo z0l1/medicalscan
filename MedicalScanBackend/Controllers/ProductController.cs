@@ -39,7 +39,7 @@ public class ProductController : ControllerBase
         return await _productService.UpdateProductAsync(productDto);
     }
 
-    [HttpDelete("/deleteById/{id:long}")]
+    [HttpDelete("/deleteById/{id:Guid}")]
     public async Task<HandledResponse<bool>> DeleteProductById(Guid id)
     {
         return await _productService.DeleteProductByIdAsync(id);
