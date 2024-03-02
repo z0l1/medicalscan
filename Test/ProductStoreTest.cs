@@ -1,4 +1,3 @@
-using MedicalScanBackend.Core.Entities;
 using MedicalScanBackend.Repository.Store;
 
 namespace Test;
