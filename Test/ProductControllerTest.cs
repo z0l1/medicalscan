@@ -1,7 +1,9 @@
-﻿using MedicalScanBackend.Controllers;
+﻿using System.ComponentModel.DataAnnotations;
+using MedicalScanBackend.Controllers;
 using MedicalScanBackend.Core.DTOs;
-using MedicalScanBackend.DomainLogic.Errors;
+using MedicalScanBackend.Core.Errors;
 using MedicalScanBackend.DomainLogic.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 
 namespace Test;
@@ -15,9 +17,11 @@ public class ProductControllerTest
     public async Task Setup()
     {
         _mockProductService = new Mock<IProductService>();
+
         _mockProductService.Setup(
                 service => service.CreateProductAsync(
-                    It.Is<CreateProductRequest>(r => r.Name == "abc" && r.Price == 123)
+                    // any response we return a 200 mock value, since we validate at controller level
+                    It.Is<CreateProductRequest>(r => true)
                 ))
             .ReturnsAsync(new HandledResponse<ProductDto?>
             {
@@ -25,31 +29,9 @@ public class ProductControllerTest
                 Data = new ProductDto
                 {
                     Id = Guid.NewGuid(),
-                    Name = "abc",
+                    Name = "mock",
                     Price = 123
                 }
-            });
-
-        _mockProductService.Setup(
-                service => service.CreateProductAsync(
-                    It.Is<CreateProductRequest>(r => r.Name == "a" && r.Price == 123)
-                ))
-            .ReturnsAsync(new HandledResponse<ProductDto?>
-            {
-                Code = 400,
-                Data = null,
-                Error = RequestErrors.NameLength
-            });
-
-        _mockProductService.Setup(
-                service => service.CreateProductAsync(
-                    It.Is<CreateProductRequest>(r => r.Name == "abc" && r.Price == 0)
-                ))
-            .ReturnsAsync(new HandledResponse<ProductDto?>
-            {
-                Code = 400,
-                Data = null,
-                Error = RequestErrors.PriceNotPositive
             });
 
         _productController = new ProductController(_mockProductService.Object);
@@ -70,6 +52,8 @@ public class ProductControllerTest
             Name = "abc",
             Price = 123
         };
+        
+        ValidateModel(req, _productController);
 
         var result = await _productController.CreateProduct(req);
 
@@ -81,7 +65,7 @@ public class ProductControllerTest
         Assert.That(result.Code, Is.EqualTo(200));
         Assert.That(result.Data, Is.Not.Null);
     }
-    
+
     [Test]
     public async Task ControllerCreateShortNameTest()
     {
@@ -91,16 +75,17 @@ public class ProductControllerTest
             Price = 123
         };
 
+        ValidateModel(req, _productController);
+
         var result = await _productController.CreateProduct(req);
 
         Assert.That(result, Is.Not.Null);
 
         Assert.That(result.Error, Is.Not.Null);
-        Assert.That(result.Error, Is.EqualTo(RequestErrors.NameLength));
         Assert.That(result.Code, Is.EqualTo(400));
         Assert.That(result.Data, Is.Null);
     }
-    
+
     [Test]
     public async Task ControllerCreateWrongPriceTest()
     {
@@ -110,13 +95,33 @@ public class ProductControllerTest
             Price = 0
         };
 
+        ValidateModel(req, _productController);
+
         var result = await _productController.CreateProduct(req);
 
         Assert.That(result, Is.Not.Null);
 
         Assert.That(result.Error, Is.Not.Null);
-        Assert.That(result.Error, Is.EqualTo(RequestErrors.PriceNotPositive));
         Assert.That(result.Code, Is.EqualTo(400));
         Assert.That(result.Data, Is.Null);
+    }
+
+
+    private static void ValidateModel(object model, ControllerBase controller)
+    {
+        controller.ModelState.Clear();
+        
+        var validationContext = new ValidationContext(model, serviceProvider: null, items: null);
+        var validationResults = new List<ValidationResult>();
+
+        Validator.TryValidateObject(model, validationContext, validationResults, true);
+
+        foreach (var validationResult in validationResults)
+        {
+            foreach (var memberName in validationResult.MemberNames)
+            {
+                controller.ModelState.AddModelError(memberName, validationResult.ErrorMessage);
+            }
+        }
     }
 }
