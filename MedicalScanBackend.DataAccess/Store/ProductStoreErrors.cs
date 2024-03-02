@@ -1,6 +1,6 @@
 ﻿namespace MedicalScanBackend.Repository.Store;
 
-public static class ProductErrors
+public static class ProductStoreErrors
 {
     public static string CouldNotFind { get; set; } = "product not found";
     public static string CouldNotCreate { get; set; } = "could not create product";

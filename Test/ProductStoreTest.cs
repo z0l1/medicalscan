@@ -79,18 +79,18 @@ public class Tests
     {
         var getResult = await GetStore().GetProductById(Guid.Empty);
         Assert.That(getResult.Error, Is.Not.Null);
-        Assert.That(getResult.Error, Is.EqualTo(ProductErrors.CouldNotFind));
+        Assert.That(getResult.Error, Is.EqualTo(ProductStoreErrors.CouldNotFind));
         Assert.That(getResult.Data, Is.Null);
 
         var updateResult = await GetStore()
             .UpdateProduct(Guid.Empty,"asd", 1);
         Assert.That(updateResult.Error, Is.Not.Null);
-        Assert.That(updateResult.Error, Is.EqualTo(ProductErrors.CouldNotFind));
+        Assert.That(updateResult.Error, Is.EqualTo(ProductStoreErrors.CouldNotFind));
         Assert.That(updateResult.Data, Is.Null);
         
         var deleteResult = await GetStore().DeleteProductById(Guid.Empty);
         Assert.That(deleteResult.Error, Is.Not.Null);
-        Assert.That(deleteResult.Error, Is.EqualTo(ProductErrors.CouldNotFind));
+        Assert.That(deleteResult.Error, Is.EqualTo(ProductStoreErrors.CouldNotFind));
         Assert.That(deleteResult.Data, Is.False);
     }
 }

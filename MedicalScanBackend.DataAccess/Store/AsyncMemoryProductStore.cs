@@ -63,7 +63,7 @@ public class AsyncMemoryProductStore
         var result = _productDict.TryAdd(uuid, entity);
         if (!result)
         {
-            return new TaskResult<Product?>(null, ProductErrors.CouldNotCreate);
+            return new TaskResult<Product?>(null, ProductStoreErrors.CouldNotCreate);
         }
 
         return new TaskResult<Product?>(entity);
@@ -74,7 +74,7 @@ public class AsyncMemoryProductStore
         var result = _productDict.TryGetValue(id, out var product);
         if (!result)
         {
-            return new TaskResult<Product?>(null, ProductErrors.CouldNotFind);
+            return new TaskResult<Product?>(null, ProductStoreErrors.CouldNotFind);
         }
 
         return new TaskResult<Product?>(product);
@@ -112,7 +112,7 @@ public class AsyncMemoryProductStore
         var result = _productDict.TryUpdate(id, newProduct, productResult.Data);
         if (!result)
         {
-            return new TaskResult<Product?>(null, ProductErrors.CouldNotUpdate);
+            return new TaskResult<Product?>(null, ProductStoreErrors.CouldNotUpdate);
         }
 
         return new TaskResult<Product?>(newProduct);
@@ -127,7 +127,7 @@ public class AsyncMemoryProductStore
         }
 
         var result = _productDict.TryRemove(id, out var removedProduct);
-        var err = result ? null : ProductErrors.CouldNotDelete;
+        var err = result ? null : ProductStoreErrors.CouldNotDelete;
 
         return new TaskResult<bool>(result, err);
     }

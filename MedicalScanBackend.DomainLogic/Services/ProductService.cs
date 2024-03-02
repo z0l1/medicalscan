@@ -54,8 +54,8 @@ public class ProductService: IProductService
         if (result.Error != null)
         {
             var code = 400;
-            if (result.Error == ProductErrors.CouldNotFind) code = 404; 
-            else if (result.Error == ProductErrors.CouldNotUpdate) code = 500;
+            if (result.Error == ProductStoreErrors.CouldNotFind) code = 404; 
+            else if (result.Error == ProductStoreErrors.CouldNotUpdate) code = 500;
             
             return ResponseHandling.MakeStatusCodeResponse<ProductDto>(code, null, result.Error);
         }
@@ -69,8 +69,8 @@ public class ProductService: IProductService
         if (result.Error != null)
         {
             var code = 400;
-            if (result.Error == ProductErrors.CouldNotFind) code = 404;
-            else if (result.Error == ProductErrors.CouldNotDelete) code = 500;
+            if (result.Error == ProductStoreErrors.CouldNotFind) code = 404;
+            else if (result.Error == ProductStoreErrors.CouldNotDelete) code = 500;
             
             return ResponseHandling.MakeStatusCodeResponse<bool>(code, false, result.Error);
         }
